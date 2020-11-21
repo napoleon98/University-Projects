@@ -1,0 +1,50 @@
+* source TELESTIKOS
+M_M8         N04839 N04839 N04941 N04941 nfet  
++ L=1u  
++ W=1.3753u         
+V_Vss         N04941 0 -2.01V
+M_M6         N04639 N04587 N04545 N04545 pfet  
++ L=1u  
++ W=6.9534u         
+C_Cc         N04587 N04639  0.9p  TC=0,0 
+M_M7         N04639 N04839 N04941 N04941 nfet  
++ L=1u  
++ W=3.4062u         
+M_M2         N04587 N09074 N04827 N04827 nfet  
++ L=1u  
++ W=3.5u         
+M_M4         N04587 N04643 N04545 N04545 pfet  
++ L=1u  
++ W=1u         
+M_M5         N04827 N04839 N04941 N04941 nfet  
++ L=1u  
++ W=1.3753u         
+M_M3         N04643 N04643 N04545 N04545 pfet  
++ L=1u  
++ W=1u         
+M_M1         N04643 N04639 N04827 N04827 nfet  
++ L=1u  
++ W=3.5u         
+C_CL         N04639 0  2.7p  TC=0,0 
+M_M9         N09594 N04839 N04545 N04545 pfet  
++ L=1u  
++ W=1u         
+M_M10         N04839 N04839 N04545 N04545 pfet  
++ L=1u  
++ W=1.7188u         
+M_M11         N04839 N09594 N09642 N09642 nfet  
++ L=1u  
++ W=1u         
+M_M12         N09621 N09594 N09594 N09594 nfet  
++ L=1u  
++ W=1u         
+M_M13         N04941 N09621 N09621 N09621 nfet  
++ L=1u  
++ W=1u         
+M_M14         N09642 N09621 N11039 N11039 nfet  
++ L=1u  
++ W=4u         
+V_Vdd         N04545 0 2.01V
+R_R1         N04941 N11039  7.4635k TC=0,0 
+V_V1         N09074 0  
++PULSE 0 1 0 1n 1n 20u 40u

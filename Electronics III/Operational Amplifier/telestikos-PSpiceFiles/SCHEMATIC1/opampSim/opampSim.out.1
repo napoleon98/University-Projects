@@ -1,0 +1,78 @@
+
+**** 12/31/19 13:45:51 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-opampSim"  [ C:\Users\Napoleon\Desktop\opamp\telestikos-PSpiceFiles\SCHEMATIC1\opampSim.sim ] 
+
+
+ ****     CIRCUIT DESCRIPTION
+
+
+******************************************************************************
+
+
+
+
+** Creating circuit file "opampSim.cir" 
+** WARNING: THIS AUTOMATICALLY GENERATED FILE MAY BE OVERWRITTEN BY SUBSEQUENT SIMULATIONS
+
+*Libraries: 
+* Profile Libraries :
+* Local Libraries :
+.LIB "../../../telestikos-pspicefiles/telestikos.lib" 
+* From [PSPICE NETLIST] section of C:\Users\Napoleon\AppData\Roaming\SPB_Data\cdssetup\OrCAD_PSpice\17.2.0\PSpice.ini file:
+.lib "nomd.lib" 
+
+*Analysis directives: 
+.AC DEC 10 1 100meg
+.OPTIONS ADVCONV
+.PROBE64 V(alias(*)) I(alias(*)) W(alias(*)) D(alias(*)) NOISE(alias(*)) 
+.INC "..\SCHEMATIC1.net" 
+
+
+
+**** INCLUDING SCHEMATIC1.net ****
+* source TELESTIKOS
+M_M8         N04819 N04819 N04941 N04941 nfet  
++ L=1u  
++ W=1.3753u         
+V_Vss         N04941 0 -2.01V
+M_M6         N04639 N04587 N04537 N04537 pfet  
++ L=1u  
++ W=4.9534u         
+C_Cc         N04587 N04639  3p  TC=0,0 
+M_M7         N04639 N04819 N04941 N04941 nfet  
++ L=1u  
++ W=3.4062u         
+V_Vdd         N04537 0 2.01V
+M_M2         N04587 N04823 N04827 N04827 nfet  
++ L=1u  
++ W=2.5034u         
+M_M4         N04587 N04643 N04537 N04537 pfet  
++ L=1u  
++ W=1u         
+I_Iref         N04537 N04819 DC 56.1uA  
+M_M5         N04827 N04819 N04941 N04941 nfet  
++ L=1u  
++ W=1.3753u         
+M_M3         N04643 N04643 N04537 N04537 pfet  
++ L=1u  
++ W=1u         
+M_M1         N04643 N04639 N04827 N04827 nfet  
++ L=1u  
++ W=2.5034u         
+C_CL         N04639 0  2.7p  TC=0,0 
+V_V1         M_UN0001 M_UN0002  
++PULSE 0 1 0 1n 1n 20u 40u
+V_V2         N04823 0 DC 0Vdc AC 0.1Vac 
+
+**** RESUMING opampSim.cir ****
+.END
+
+ERROR(ORPSIM-15141): Less than 2 connections at node M_UN0001.
+
+ERROR(ORPSIM-15141): Less than 2 connections at node M_UN0002.
+
+ERROR(ORPSIM-15142): Node M_UN0001 is floating
+
+ERROR(ORPSIM-15142): Node M_UN0002 is floating
+

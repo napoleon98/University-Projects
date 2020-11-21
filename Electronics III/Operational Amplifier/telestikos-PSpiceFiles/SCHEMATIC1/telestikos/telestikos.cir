@@ -1,0 +1,21 @@
+** Profile: "SCHEMATIC1-telestikos"  [ c:\users\napoleon\desktop\opamp\telestikos-pspicefiles\schematic1\telestikos.sim ] 
+
+** Creating circuit file "telestikos.cir" 
+** WARNING: THIS AUTOMATICALLY GENERATED FILE MAY BE OVERWRITTEN BY SUBSEQUENT SIMULATIONS
+
+*Libraries: 
+* Profile Libraries :
+* Local Libraries :
+.LIB "../../../telestikos-pspicefiles/telestikos.lib" 
+* From [PSPICE NETLIST] section of C:\Users\Napoleon\AppData\Roaming\SPB_Data\cdssetup\OrCAD_PSpice\17.2.0\PSpice.ini file:
+.lib "nomd.lib" 
+
+*Analysis directives: 
+.TRAN  0 1us 0 
+.TEMP  0 10 20 30 40 50 60 70
+.OPTIONS ADVCONV
+.PROBE64 V(alias(*)) I(alias(*)) W(alias(*)) D(alias(*)) NOISE(alias(*)) 
+.INC "..\SCHEMATIC1.net" 
+
+
+.END

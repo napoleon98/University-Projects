@@ -1,0 +1,600 @@
+
+**** 12/31/19 18:37:17 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-opampSim"  [ C:\Users\Napoleon\Desktop\opamp\telestikos-PSpiceFiles\SCHEMATIC1\opampSim.sim ] 
+
+
+ ****     CIRCUIT DESCRIPTION
+
+
+******************************************************************************
+
+
+
+
+** Creating circuit file "opampSim.cir" 
+** WARNING: THIS AUTOMATICALLY GENERATED FILE MAY BE OVERWRITTEN BY SUBSEQUENT SIMULATIONS
+
+*Libraries: 
+* Profile Libraries :
+* Local Libraries :
+.LIB "../../../telestikos-pspicefiles/telestikos.lib" 
+* From [PSPICE NETLIST] section of C:\Users\Napoleon\AppData\Roaming\SPB_Data\cdssetup\OrCAD_PSpice\17.2.0\PSpice.ini file:
+.lib "nomd.lib" 
+
+*Analysis directives: 
+.AC DEC 10 1 100meg
+.TEMP 0 10 20 30 40 50 60 70
+.OPTIONS ADVCONV
+.PROBE64 V(alias(*)) I(alias(*)) W(alias(*)) D(alias(*)) NOISE(alias(*)) 
+.INC "..\SCHEMATIC1.net" 
+
+
+
+**** INCLUDING SCHEMATIC1.net ****
+* source TELESTIKOS
+M_M8         N04819 N04819 N04941 N04941 nfet  
++ L=1u  
++ W=1.3753u         
+V_Vss         N04941 0 -2.01V
+M_M6         N04639 N04587 N04537 N04537 pfet  
++ L=1u  
++ W=6.9534u         
+C_Cc         N04587 N04639  1p  TC=0,0 
+M_M7         N04639 N04819 N04941 N04941 nfet  
++ L=1u  
++ W=3.4062u         
+V_Vdd         N04537 0 2.01V
+M_M2         N04587 N04823 N04827 N04827 nfet  
++ L=1u  
++ W=3.5u         
+M_M4         N04587 N04643 N04537 N04537 pfet  
++ L=1u  
++ W=1u         
+I_Iref         N04537 N04819 DC 56.1uA  
+M_M5         N04827 N04819 N04941 N04941 nfet  
++ L=1u  
++ W=1.3753u         
+M_M3         N04643 N04643 N04537 N04537 pfet  
++ L=1u  
++ W=1u         
+M_M1         N04643 0 N04827 N04827 nfet  
++ L=1u  
++ W=3.5u         
+C_CL         N04639 0  2.7p  TC=0,0 
+V_V1         N04823 0 DC 0Vdc AC 0.1Vac 
+
+**** RESUMING opampSim.cir ****
+.END
+
+**** 12/31/19 18:37:17 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-opampSim"  [ C:\Users\Napoleon\Desktop\opamp\telestikos-PSpiceFiles\SCHEMATIC1\opampSim.sim ] 
+
+
+ ****     MOSFET MODEL PARAMETERS
+
+
+******************************************************************************
+
+
+
+
+               nfet            pfet            
+               NMOS            PMOS            
+       LEVEL    3               3            
+         TPG                   -1            
+           L  100.000000E-06  100.000000E-06 
+           W  100.000000E-06  100.000000E-06 
+          LD  164.700000E-09   22.000000E-09 
+         VTO     .786           -.9056       
+          KP   96.379000E-06   29.352000E-06 
+       GAMMA     .5863           .4863       
+         PHI     .6              .6          
+      LAMBDA    0               0            
+         RSH   85.45          104.7          
+          IS   10.000000E-15   10.000000E-15 
+          JS    0               0            
+          PB     .8              .85         
+        PBSW     .8              .85         
+          CJ  385.410000E-06  484.470000E-06 
+        CJSW  139.400000E-12  164.570000E-12 
+          MJ    1.1854           .5027       
+        MJSW     .125195         .217168     
+        CGSO  402.410000E-12   53.752000E-12 
+        CGDO  402.410000E-12   53.752000E-12 
+        CGBO  361.440000E-12  336.500000E-12 
+        NSUB   16.160000E+15   18.900000E+15 
+         NFS    5.000000E+12    3.460000E+12 
+         TOX   21.200000E-09   21.200000E-09 
+          XJ  200.000000E-09  200.000000E-09 
+          UO  591.7           180.2          
+       UCRIT   10.000000E+03   10.000000E+03 
+        VMAX  208.200000E+03  373.200000E+03 
+       DELTA     .6967          1.52         
+       THETA     .08122          .1248       
+         ETA     .07066          .1641       
+       KAPPA     .1396          9.694        
+      DIOMOD    1               1            
+         VFB    0               0            
+        LETA    0               0            
+        WETA    0               0            
+          U0    0               0            
+        TEMP    0               0            
+         VDD    5               5            
+       XPART    0               0            
+
+
+**** 12/31/19 18:37:17 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-opampSim"  [ C:\Users\Napoleon\Desktop\opamp\telestikos-PSpiceFiles\SCHEMATIC1\opampSim.sim ] 
+
+
+ ****     TEMPERATURE-ADJUSTED VALUES      TEMPERATURE =    0.000 DEG C
+
+
+******************************************************************************
+
+
+
+
+ **** MOSFET MODEL PARAMETERS
+
+                    nfet           pfet      
+
+        VTO        8.347E-01     -9.575E-01  
+        PHI        6.600E-01      6.600E-01  
+         PB        8.420E-01      8.875E-01  
+     IS(JS)        1.048E-16      1.048E-16  
+         KP        1.110E-04      3.381E-05  
+         UO        6.816E+02      2.076E+02  
+
+
+**** 12/31/19 18:37:17 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-opampSim"  [ C:\Users\Napoleon\Desktop\opamp\telestikos-PSpiceFiles\SCHEMATIC1\opampSim.sim ] 
+
+
+ ****     SMALL SIGNAL BIAS SOLUTION       TEMPERATURE =    0.000 DEG C
+
+
+******************************************************************************
+
+
+
+ NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE
+
+
+(N04537)    2.0100 (N04587)    -.2534 (N04639)     .4358 (N04643)    -.2534     
+
+(N04819)    -.5338 (N04823)    0.0000 (N04827)    -.9954 (N04941)   -2.0100 
+
+
+
+
+    VOLTAGE SOURCE CURRENTS
+    NAME         CURRENT
+
+    V_Vss        2.964E-04
+    V_Vdd       -2.964E-04
+    V_V1         0.000E+00
+
+    TOTAL POWER DISSIPATION   1.19E-03  WATTS
+
+
+**** 12/31/19 18:37:17 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-opampSim"  [ C:\Users\Napoleon\Desktop\opamp\telestikos-PSpiceFiles\SCHEMATIC1\opampSim.sim ] 
+
+
+ ****     TEMPERATURE-ADJUSTED VALUES      TEMPERATURE =   10.000 DEG C
+
+
+******************************************************************************
+
+
+
+
+ **** MOSFET MODEL PARAMETERS
+
+                    nfet           pfet      
+
+        VTO        8.168E-01     -9.385E-01  
+        PHI        6.379E-01      6.379E-01  
+         PB        8.266E-01      8.737E-01  
+     IS(JS)        6.260E-16      6.260E-16  
+         KP        1.052E-04      3.203E-05  
+         UO        6.458E+02      1.967E+02  
+
+
+**** 12/31/19 18:37:17 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-opampSim"  [ C:\Users\Napoleon\Desktop\opamp\telestikos-PSpiceFiles\SCHEMATIC1\opampSim.sim ] 
+
+
+ ****     SMALL SIGNAL BIAS SOLUTION       TEMPERATURE =   10.000 DEG C
+
+
+******************************************************************************
+
+
+
+ NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE
+
+
+(N04537)    2.0100 (N04587)    -.2772 (N04639)     .4524 (N04643)    -.2772     
+
+(N04819)    -.5261 (N04823)    0.0000 (N04827)    -.9931 (N04941)   -2.0100 
+
+
+
+
+    VOLTAGE SOURCE CURRENTS
+    NAME         CURRENT
+
+    V_Vss        2.953E-04
+    V_Vdd       -2.953E-04
+    V_V1         0.000E+00
+
+    TOTAL POWER DISSIPATION   1.19E-03  WATTS
+
+
+**** 12/31/19 18:37:17 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-opampSim"  [ C:\Users\Napoleon\Desktop\opamp\telestikos-PSpiceFiles\SCHEMATIC1\opampSim.sim ] 
+
+
+ ****     TEMPERATURE-ADJUSTED VALUES      TEMPERATURE =   20.000 DEG C
+
+
+******************************************************************************
+
+
+
+
+ **** MOSFET MODEL PARAMETERS
+
+                    nfet           pfet      
+
+        VTO        7.988E-01     -9.192E-01  
+        PHI        6.157E-01      6.157E-01  
+         PB        8.110E-01      8.598E-01  
+     IS(JS)        3.319E-15      3.319E-15  
+         KP        9.985E-05      3.041E-05  
+         UO        6.130E+02      1.867E+02  
+
+
+**** 12/31/19 18:37:17 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-opampSim"  [ C:\Users\Napoleon\Desktop\opamp\telestikos-PSpiceFiles\SCHEMATIC1\opampSim.sim ] 
+
+
+ ****     SMALL SIGNAL BIAS SOLUTION       TEMPERATURE =   20.000 DEG C
+
+
+******************************************************************************
+
+
+
+ NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE
+
+
+(N04537)    2.0100 (N04587)    -.3010 (N04639)     .4702 (N04643)    -.3010     
+
+(N04819)    -.5186 (N04823)    0.0000 (N04827)    -.9907 (N04941)   -2.0100 
+
+
+
+
+    VOLTAGE SOURCE CURRENTS
+    NAME         CURRENT
+
+    V_Vss        2.944E-04
+    V_Vdd       -2.944E-04
+    V_V1         0.000E+00
+
+    TOTAL POWER DISSIPATION   1.18E-03  WATTS
+
+
+**** 12/31/19 18:37:17 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-opampSim"  [ C:\Users\Napoleon\Desktop\opamp\telestikos-PSpiceFiles\SCHEMATIC1\opampSim.sim ] 
+
+
+ ****     TEMPERATURE-ADJUSTED VALUES      TEMPERATURE =   30.000 DEG C
+
+
+******************************************************************************
+
+
+
+
+ **** MOSFET MODEL PARAMETERS
+
+                    nfet           pfet      
+
+        VTO        7.805E-01     -8.997E-01  
+        PHI        5.933E-01      5.933E-01  
+         PB        7.953E-01      8.458E-01  
+     IS(JS)        1.580E-14      1.580E-14  
+         KP        9.495E-05      2.892E-05  
+         UO        5.829E+02      1.775E+02  
+
+
+**** 12/31/19 18:37:17 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-opampSim"  [ C:\Users\Napoleon\Desktop\opamp\telestikos-PSpiceFiles\SCHEMATIC1\opampSim.sim ] 
+
+
+ ****     SMALL SIGNAL BIAS SOLUTION       TEMPERATURE =   30.000 DEG C
+
+
+******************************************************************************
+
+
+
+ NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE
+
+
+(N04537)    2.0100 (N04587)    -.3248 (N04639)     .4890 (N04643)    -.3248     
+
+(N04819)    -.5113 (N04823)    0.0000 (N04827)    -.9880 (N04941)   -2.0100 
+
+
+
+
+    VOLTAGE SOURCE CURRENTS
+    NAME         CURRENT
+
+    V_Vss        2.935E-04
+    V_Vdd       -2.935E-04
+    V_V1         0.000E+00
+
+    TOTAL POWER DISSIPATION   1.18E-03  WATTS
+
+
+**** 12/31/19 18:37:17 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-opampSim"  [ C:\Users\Napoleon\Desktop\opamp\telestikos-PSpiceFiles\SCHEMATIC1\opampSim.sim ] 
+
+
+ ****     TEMPERATURE-ADJUSTED VALUES      TEMPERATURE =   40.000 DEG C
+
+
+******************************************************************************
+
+
+
+
+ **** MOSFET MODEL PARAMETERS
+
+                    nfet           pfet      
+
+        VTO        7.619E-01     -8.799E-01  
+        PHI        5.707E-01      5.707E-01  
+         PB        7.794E-01      8.316E-01  
+     IS(JS)        6.824E-14      6.824E-14  
+         KP        9.044E-05      2.754E-05  
+         UO        5.552E+02      1.691E+02  
+
+
+**** 12/31/19 18:37:17 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-opampSim"  [ C:\Users\Napoleon\Desktop\opamp\telestikos-PSpiceFiles\SCHEMATIC1\opampSim.sim ] 
+
+
+ ****     SMALL SIGNAL BIAS SOLUTION       TEMPERATURE =   40.000 DEG C
+
+
+******************************************************************************
+
+
+
+ NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE
+
+
+(N04537)    2.0100 (N04587)    -.3485 (N04639)     .5087 (N04643)    -.3485     
+
+(N04819)    -.5042 (N04823)    0.0000 (N04827)    -.9850 (N04941)   -2.0100 
+
+
+
+
+    VOLTAGE SOURCE CURRENTS
+    NAME         CURRENT
+
+    V_Vss        2.928E-04
+    V_Vdd       -2.928E-04
+    V_V1         0.000E+00
+
+    TOTAL POWER DISSIPATION   1.18E-03  WATTS
+
+
+**** 12/31/19 18:37:17 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-opampSim"  [ C:\Users\Napoleon\Desktop\opamp\telestikos-PSpiceFiles\SCHEMATIC1\opampSim.sim ] 
+
+
+ ****     TEMPERATURE-ADJUSTED VALUES      TEMPERATURE =   50.000 DEG C
+
+
+******************************************************************************
+
+
+
+
+ **** MOSFET MODEL PARAMETERS
+
+                    nfet           pfet      
+
+        VTO        7.431E-01     -8.598E-01  
+        PHI        5.481E-01      5.481E-01  
+         PB        7.634E-01      8.172E-01  
+     IS(JS)        2.698E-13      2.698E-13  
+         KP        8.627E-05      2.627E-05  
+         UO        5.297E+02      1.613E+02  
+
+
+**** 12/31/19 18:37:17 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-opampSim"  [ C:\Users\Napoleon\Desktop\opamp\telestikos-PSpiceFiles\SCHEMATIC1\opampSim.sim ] 
+
+
+ ****     SMALL SIGNAL BIAS SOLUTION       TEMPERATURE =   50.000 DEG C
+
+
+******************************************************************************
+
+
+
+ NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE
+
+
+(N04537)    2.0100 (N04587)    -.3722 (N04639)     .5293 (N04643)    -.3722     
+
+(N04819)    -.4974 (N04823)    0.0000 (N04827)    -.9819 (N04941)   -2.0100 
+
+
+
+
+    VOLTAGE SOURCE CURRENTS
+    NAME         CURRENT
+
+    V_Vss        2.921E-04
+    V_Vdd       -2.921E-04
+    V_V1         0.000E+00
+
+    TOTAL POWER DISSIPATION   1.17E-03  WATTS
+
+
+**** 12/31/19 18:37:17 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-opampSim"  [ C:\Users\Napoleon\Desktop\opamp\telestikos-PSpiceFiles\SCHEMATIC1\opampSim.sim ] 
+
+
+ ****     TEMPERATURE-ADJUSTED VALUES      TEMPERATURE =   60.000 DEG C
+
+
+******************************************************************************
+
+
+
+
+ **** MOSFET MODEL PARAMETERS
+
+                    nfet           pfet      
+
+        VTO        7.240E-01     -8.394E-01  
+        PHI        5.252E-01      5.252E-01  
+         PB        7.472E-01      8.027E-01  
+     IS(JS)        9.843E-13      9.843E-13  
+         KP        8.242E-05      2.510E-05  
+         UO        5.060E+02      1.541E+02  
+
+
+**** 12/31/19 18:37:17 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-opampSim"  [ C:\Users\Napoleon\Desktop\opamp\telestikos-PSpiceFiles\SCHEMATIC1\opampSim.sim ] 
+
+
+ ****     SMALL SIGNAL BIAS SOLUTION       TEMPERATURE =   60.000 DEG C
+
+
+******************************************************************************
+
+
+
+ NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE
+
+
+(N04537)    2.0100 (N04587)    -.3959 (N04639)     .5507 (N04643)    -.3959     
+
+(N04819)    -.4908 (N04823)    0.0000 (N04827)    -.9786 (N04941)   -2.0100 
+
+
+
+
+    VOLTAGE SOURCE CURRENTS
+    NAME         CURRENT
+
+    V_Vss        2.914E-04
+    V_Vdd       -2.914E-04
+    V_V1         0.000E+00
+
+    TOTAL POWER DISSIPATION   1.17E-03  WATTS
+
+
+**** 12/31/19 18:37:17 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-opampSim"  [ C:\Users\Napoleon\Desktop\opamp\telestikos-PSpiceFiles\SCHEMATIC1\opampSim.sim ] 
+
+
+ ****     TEMPERATURE-ADJUSTED VALUES      TEMPERATURE =   70.000 DEG C
+
+
+******************************************************************************
+
+
+
+
+ **** MOSFET MODEL PARAMETERS
+
+                    nfet           pfet      
+
+        VTO        7.045E-01     -8.187E-01  
+        PHI        5.023E-01      5.023E-01  
+         PB        7.309E-01      7.881E-01  
+     IS(JS)        3.336E-12      3.336E-12  
+         KP        7.884E-05      2.401E-05  
+         UO        4.840E+02      1.474E+02  
+
+
+**** 12/31/19 18:37:17 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-opampSim"  [ C:\Users\Napoleon\Desktop\opamp\telestikos-PSpiceFiles\SCHEMATIC1\opampSim.sim ] 
+
+
+ ****     SMALL SIGNAL BIAS SOLUTION       TEMPERATURE =   70.000 DEG C
+
+
+******************************************************************************
+
+
+
+ NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE
+
+
+(N04537)    2.0100 (N04587)    -.4197 (N04639)     .5698 (N04643)    -.4197     
+
+(N04819)    -.4844 (N04823)    0.0000 (N04827)    -.9751 (N04941)   -2.0100 
+
+
+
+
+    VOLTAGE SOURCE CURRENTS
+    NAME         CURRENT
+
+    V_Vss        2.907E-04
+    V_Vdd       -2.907E-04
+    V_V1         0.000E+00
+
+    TOTAL POWER DISSIPATION   1.17E-03  WATTS
+
+
+
+          JOB CONCLUDED
+
+**** 12/31/19 18:37:17 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-opampSim"  [ C:\Users\Napoleon\Desktop\opamp\telestikos-PSpiceFiles\SCHEMATIC1\opampSim.sim ] 
+
+
+ ****     JOB STATISTICS SUMMARY
+
+
+******************************************************************************
+
+
+
+  Total job time (using Solver 1)   =         .39
+

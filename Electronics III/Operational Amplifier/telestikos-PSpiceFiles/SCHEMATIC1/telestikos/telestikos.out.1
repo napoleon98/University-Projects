@@ -1,0 +1,195 @@
+
+**** 01/02/20 22:27:39 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-telestikos"  [ C:\Users\Napoleon\Desktop\opamp\telestikos-pspicefiles\schematic1\telestikos.sim ] 
+
+
+ ****     CIRCUIT DESCRIPTION
+
+
+******************************************************************************
+
+
+
+
+** Creating circuit file "telestikos.cir" 
+** WARNING: THIS AUTOMATICALLY GENERATED FILE MAY BE OVERWRITTEN BY SUBSEQUENT SIMULATIONS
+
+*Libraries: 
+* Profile Libraries :
+* Local Libraries :
+.LIB "../../../telestikos-pspicefiles/telestikos.lib" 
+* From [PSPICE NETLIST] section of C:\Users\Napoleon\AppData\Roaming\SPB_Data\cdssetup\OrCAD_PSpice\17.2.0\PSpice.ini file:
+.lib "nomd.lib" 
+
+*Analysis directives: 
+.AC DEC 10 1 100meg
+.OPTIONS ADVCONV
+.PROBE64 V(alias(*)) I(alias(*)) W(alias(*)) D(alias(*)) NOISE(alias(*)) 
+.INC "..\SCHEMATIC1.net" 
+
+
+
+**** INCLUDING SCHEMATIC1.net ****
+* source TELESTIKOS
+M_M8         N04839 N04839 N04941 N04941 nfet  
++ L=1u  
++ W=1.3753u         
+V_Vss         N04941 0 -2.01V
+M_M6         N04639 N04587 N04545 N04545 pfet  
++ L=1u  
++ W=6.9534u         
+C_Cc         N04587 N04639  0.9p  TC=0,0 
+M_M7         N04639 N04839 N04941 N04941 nfet  
++ L=1u  
++ W=3.4062u         
+M_M2         N04587 N09074 N04827 N04827 nfet  
++ L=1u  
++ W=3.5u         
+M_M4         N04587 N04643 N04545 N04545 pfet  
++ L=1u  
++ W=1u         
+M_M5         N04827 N04839 N04941 N04941 nfet  
++ L=1u  
++ W=1.3753u         
+M_M3         N04643 N04643 N04545 N04545 pfet  
++ L=1u  
++ W=1u         
+M_M1         N04643 0 N04827 N04827 nfet  
++ L=1u  
++ W=3.5u         
+C_CL         N04639 0  2.7p  TC=0,0 
+M_M9         N09594 N04839 N04545 N04545 pfet  
++ L=1u  
++ W=1u         
+M_M10         N04839 N04839 N04545 N04545 pfet  
++ L=1u  
++ W=1.7188u         
+M_M11         N04839 N09594 N09642 N09642 nfet  
++ L=1u  
++ W=1u         
+M_M12         N09621 N09594 N09594 N09594 nfet  
++ L=1u  
++ W=1u         
+M_M13         N04941 N09621 N09621 N09621 nfet  
++ L=1u  
++ W=1u         
+M_M14         N09642 N09621 N11039 N11039 nfet  
++ L=1u  
++ W=4u         
+V_Vdd         N04545 0 2.01V
+R_R1         N04941 N11039  7.4635k TC=0,0 
+V_V1         N09074 0 DC 0Vdc AC 0.1Vac 
+
+**** RESUMING telestikos.cir ****
+.END
+
+**** 01/02/20 22:27:39 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-telestikos"  [ C:\Users\Napoleon\Desktop\opamp\telestikos-pspicefiles\schematic1\telestikos.sim ] 
+
+
+ ****     MOSFET MODEL PARAMETERS
+
+
+******************************************************************************
+
+
+
+
+               nfet            pfet            
+               NMOS            PMOS            
+       LEVEL    3               3            
+         TPG                   -1            
+           L  100.000000E-06  100.000000E-06 
+           W  100.000000E-06  100.000000E-06 
+          LD  164.700000E-09   22.000000E-09 
+         VTO     .786           -.9056       
+          KP   96.379000E-06   29.352000E-06 
+       GAMMA     .5863           .4863       
+         PHI     .6              .6          
+      LAMBDA    0               0            
+         RSH   85.45          104.7          
+          IS   10.000000E-15   10.000000E-15 
+          JS    0               0            
+          PB     .8              .85         
+        PBSW     .8              .85         
+          CJ  385.410000E-06  484.470000E-06 
+        CJSW  139.400000E-12  164.570000E-12 
+          MJ    1.1854           .5027       
+        MJSW     .125195         .217168     
+        CGSO  402.410000E-12   53.752000E-12 
+        CGDO  402.410000E-12   53.752000E-12 
+        CGBO  361.440000E-12  336.500000E-12 
+        NSUB   16.160000E+15   18.900000E+15 
+         NFS    5.000000E+12    3.460000E+12 
+         TOX   21.200000E-09   21.200000E-09 
+          XJ  200.000000E-09  200.000000E-09 
+          UO  591.7           180.2          
+       UCRIT   10.000000E+03   10.000000E+03 
+        VMAX  208.200000E+03  373.200000E+03 
+       DELTA     .6967          1.52         
+       THETA     .08122          .1248       
+         ETA     .07066          .1641       
+       KAPPA     .1396          9.694        
+      DIOMOD    1               1            
+         VFB    0               0            
+        LETA    0               0            
+        WETA    0               0            
+          U0    0               0            
+        TEMP    0               0            
+         VDD    5               5            
+       XPART    0               0            
+
+
+**** 01/02/20 22:27:39 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-telestikos"  [ C:\Users\Napoleon\Desktop\opamp\telestikos-pspicefiles\schematic1\telestikos.sim ] 
+
+
+ ****     SMALL SIGNAL BIAS SOLUTION       TEMPERATURE =   27.000 DEG C
+
+
+******************************************************************************
+
+
+
+ NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE
+
+
+(N04545)    2.0100 (N04587)    -.3177 (N04639)     .4833 (N04643)    -.3177     
+
+(N04827)    -.9888 (N04839)    -.5134 (N04941)   -2.0100 (N09074)    0.0000     
+
+(N09594)    -.8794 (N09621)   -1.4447 (N09642)   -1.6112 (N11039)   -2.0013 
+
+
+
+
+    VOLTAGE SOURCE CURRENTS
+    NAME         CURRENT
+
+    V_Vss        3.266E-04
+    V_Vdd       -3.266E-04
+    V_V1         0.000E+00
+
+    TOTAL POWER DISSIPATION   1.31E-03  WATTS
+
+
+
+          JOB CONCLUDED
+
+**** 01/02/20 22:27:39 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-telestikos"  [ C:\Users\Napoleon\Desktop\opamp\telestikos-pspicefiles\schematic1\telestikos.sim ] 
+
+
+ ****     JOB STATISTICS SUMMARY
+
+
+******************************************************************************
+
+
+
+  Total job time (using Solver 1)   =         .06
+
