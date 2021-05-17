@@ -7,7 +7,7 @@
 #define DHTTYPE DHT11   // DHT 11
 
 //RF STUFF
-#define MY_ADDRESS 102 
+#define MY_ADDRESS 103 
 #define DESTINATION_ADDRESS_1 101 //1 -> master node of row
 RF22Router rf22(MY_ADDRESS);
 //RF22 rf22;
@@ -21,8 +21,8 @@ int max_delay=3000;
 
 void setup() {
     Serial.begin(9600);
-	
-	if (!rf22.init()) // initialize my radio
+  
+  if (!rf22.init()) // initialize my radio
     Serial.println("RF22 init failed");  
     if (!rf22.setFrequency(434.0))
     Serial.println("setFrequency Fail");
@@ -44,7 +44,7 @@ void loop() {
   
   //DHT CodeBEGIN
   float hf = dht.readHumidity();        // read humidity
-  float tf = dht.readTemperature();     // read temperature	
+  float tf = dht.readTemperature();     // read temperature 
   int h=hf;
   int t=tf;
     if (isnan(hf) || isnan(tf)) {
@@ -56,16 +56,16 @@ void loop() {
   //Soil Moisture CodeBEGIN
   // read the input on analog pin 0:
   int sensorValue = analogRead(rainPin); //0 -> 1023 ... 1023 = 0% humidity
-  Serial.print(sensorValue);
+  //Serial.print(sensorValue);
    
   long int completePacket =  sensorValue * 1000000 + t * 1000 + h;
   Serial.print("the temperature is ");
-	Serial.println(tf);
+  Serial.println(tf);
 Serial.print("the humidity is ");
-	Serial.println(hf);	
-	Serial.print("Soil is ");
-	Serial.println(sensorValue);
-	Serial.println(completePacket);
+  Serial.println(hf); 
+  Serial.print("Soil is ");
+  Serial.println(sensorValue);
+  Serial.println(completePacket);
   // the following variables are used in order to transform my integer measured value into a uint8_t variable, which is proper for my radio
   char data_read[RF22_ROUTER_MAX_MESSAGE_LEN];
   uint8_t data_send[RF22_ROUTER_MAX_MESSAGE_LEN];
@@ -86,21 +86,21 @@ Serial.print("the humidity is ");
   successful_packet = false;
   while (!successful_packet){
   
-	if (rf22.sendtoWait(data_send, sizeof(data_send), DESTINATION_ADDRESS_1) != RF22_ROUTER_ERROR_NONE) // I'm sending the data in variable data_send to DESTINATION_ADDRESS_1... cross fingers
+  if (rf22.sendtoWait(data_send, sizeof(data_send), DESTINATION_ADDRESS_1) != RF22_ROUTER_ERROR_NONE) // I'm sending the data in variable data_send to DESTINATION_ADDRESS_1... cross fingers
   {
     Serial.println("sendtoWait failed"); // for some reason I have failed
-	randNumber=random(200,max_delay);
+  randNumber=random(200,max_delay);
     Serial.println(randNumber);
     delay(randNumber);
   }
   else
   {
-	successful_packet = true;
+  successful_packet = true;
     Serial.println("sendtoWait Successful"); // I have received an acknowledgement from DESTINATION_ADDRESS_1. Data have been delivered!
   }
   // just demonstrating that the string I will send, after those transformation from integer to char and back remains the same
   }
-  delay(20000);
+  delay(2000);
   //Soil Moisture CodeEND
   
   
