@@ -2,8 +2,8 @@
 #include <SPI.h>
 #include <RF22.h>
 #include <RF22Router.h>
-#define HIGH_TEMP 42
-#define HIGH_HUM 75
+#define HIGH_TEMP 23
+#define HIGH_HUM 40
 #define NUM_OF_NODES 3
 
 #define DHTPIN 2     // Digital pin connected to the DHT sensor
@@ -51,8 +51,8 @@ long int received_value=0;
 
 void setup() {
     Serial.begin(9600);
-	
-	if (!rf22.init()) // initialize my radio
+  
+  if (!rf22.init()) // initialize my radio
     Serial.println("RF22 init failed");
   // Defaults after init are 434.0MHz, 0.05MHz AFC pull-in, modulation FSK_Rb2_4Fd36
   if (!rf22.setFrequency(434.0)) // set the desired frequency
@@ -113,60 +113,61 @@ void loop() {
     //Serial.print("got request from : ");
     //Serial.println(from, DEC);
     received_value=atol((char*)incoming); // transforming my data into an integer
-	Serial.print("received value ");
-    Serial.println(received_value); // and showing them on the screen
-	Serial.print("I'm from ");
-	  Serial.println(from);
-	
+  //Serial.print("received value ");
+  //Serial.println(received_value); // and showing them on the screen
+  //Serial.print("I'm from ");
+  //Serial.println(from);
+  
   }
   
-  whoSent = (int)from;
-	Serial.println(whoSent);
-	
+  whoSent = ((int)from)%100;
+  
+  //Serial.println(whoSent);
+  
   //received_value = received_value % 10000000;//afairesame to MY_ADDRESS apo to received_value
   
   int i=0;
   int k=0;
   
   for(i=1;i<(NUM_OF_NODES+1);i++){
-	  
-	  if(whoSent == i){
-		  nodeNum[i-1]=1;
-		  soilNode[i-1] = received_value / 1000000;
-		  received_value = received_value % 1000000;
-		  tNode[i-1] = received_value/1000;
-		  received_value = received_value % 1000;
-		  hNode[i-1]=received_value;
-	  }
-	  
-	  
-	  
+    
+    if(whoSent == i){
+      nodeNum[i-1]=1;
+      soilNode[i-1] = received_value / 1000000;
+      received_value = received_value % 1000000;
+      tNode[i-1] = received_value/1000;
+      received_value = received_value % 1000;
+      hNode[i-1]=received_value;
+    }
+    
+    
+    
   }
   
-	for(k=0;k<NUM_OF_NODES;k++){
-		if(nodeNum[k]==0)allSent=0;		
-		
-	}
+  for(k=0;k<NUM_OF_NODES;k++){
+    if(nodeNum[k]==0)allSent=0;   
+    
+  }
   
   if(allSent==1){
-	  
-	  process();
-	  
+    
+    process();
+    
   }
     
-	
+  
 }
 
 void process(){
-	//DHT CodeBEGIN
-	
-	int p =0;
-	for(p=0;p<NUM_OF_NODES;p++){
-		
-		nodeNum[p] = 0;
-		
-	}
-	
+  //DHT CodeBEGIN
+  
+  int p =0;
+  for(p=0;p<NUM_OF_NODES;p++){
+    
+    nodeNum[p] = 0;
+    
+  }
+  
   float h = dht.readHumidity();        // read humidity
   float t = dht.readTemperature();     // read temperature
   int hasDamage = 0;
@@ -192,40 +193,40 @@ void process(){
   
   
   for(l=0;l<NUM_OF_NODES;l++){
-	  meanHum = meanHum + hNode[l];
-	  meanTemp = meanTemp + tNode[l];
-	  meanSoil = meanSoil + soilNode[l];
+    meanHum = meanHum + hNode[l];
+    meanTemp = meanTemp + tNode[l];
+    meanSoil = meanSoil + soilNode[l];
   }
-	meanHum = meanHum / NUM_OF_NODES;
-	meanTemp = meanTemp / NUM_OF_NODES;
-	meanSoil = meanSoil / NUM_OF_NODES;
-	
-	if(meanSoil > thresholdValue) needWater = 1;
-	if(meanSoil < wateringDone) needWater = 0;
-	if(needWater == 1)
-		for(m=0;m<NUM_OF_NODES;m++){
-			if(soilNode[m]>extremeLowHum){
-				waterSystemDamage[m]=1;
-				Serial.print("Node ");
+  meanHum = meanHum / NUM_OF_NODES;
+  meanTemp = meanTemp / NUM_OF_NODES;
+  meanSoil = meanSoil / NUM_OF_NODES;
+  
+  if(meanSoil > thresholdValue) needWater = 1;
+  if(meanSoil < wateringDone) needWater = 0;
+  if(needWater == 1)
+    for(m=0;m<NUM_OF_NODES;m++){
+      if(soilNode[m]>extremeLowHum){
+        waterSystemDamage[m]=1;
+        Serial.print("Node ");
         Serial.print(m,DEC);
         Serial.println("has water system damage");
-				hasDamage = 1;
-				digitalWrite(orangeLED, HIGH);
-				}
-			else {waterSystemDamage[m] = 0;
-				Serial.println("Watering system works fine");
-				  digitalWrite(orangeLED, LOW);
-			}
-		}
-	
-	if(meanTemp > HIGH_TEMP)digitalWrite(redLED, HIGH);
-	if(meanTemp < HIGH_TEMP)digitalWrite(redLED, LOW);
-	if(meanHum > HIGH_HUM)digitalWrite(blueLED, HIGH);
-	if(meanTemp < HIGH_HUM)digitalWrite(blueLED, LOW);
-	
-	//pws na paketaroume??
-	
-	//packetData + send
+        hasDamage = 1;
+        digitalWrite(orangeLED, HIGH);
+        }
+      else {waterSystemDamage[m] = 0;
+        Serial.println("Watering system works fine");
+          digitalWrite(orangeLED, LOW);
+      }
+    }
+  
+  if(meanTemp > HIGH_TEMP)digitalWrite(redLED, HIGH);
+  if(meanTemp < HIGH_TEMP)digitalWrite(redLED, LOW);
+  if(meanHum > HIGH_HUM)digitalWrite(blueLED, HIGH);
+  if(meanTemp < HIGH_HUM)digitalWrite(blueLED, LOW);
+  
+  //pws na paketaroume??
+  
+  //packetData + send
   char data_read[RF22_ROUTER_MAX_MESSAGE_LEN];
   uint8_t data_send[RF22_ROUTER_MAX_MESSAGE_LEN];
   memset(data_read, '\0', RF22_ROUTER_MAX_MESSAGE_LEN);
@@ -235,19 +236,19 @@ void process(){
   memcpy(data_send, data_read, RF22_ROUTER_MAX_MESSAGE_LEN); // now I'm copying data_read to data_send
   //number_of_bytes=sizeof(data_send); // I'm counting the number of bytes of my message
   successful_packet = false;
-  while (!successful_packet){	
-	
-	if (rf22.sendtoWait(data_send, sizeof(data_send), DESTINATION_ADDRESS_1) != RF22_ROUTER_ERROR_NONE) // I'm sending the data in variable data_send to DESTINATION_ADDRESS_1... cross fingers
+  while (!successful_packet){ 
+  
+  if (rf22.sendtoWait(data_send, sizeof(data_send), DESTINATION_ADDRESS_1) != RF22_ROUTER_ERROR_NONE) // I'm sending the data in variable data_send to DESTINATION_ADDRESS_1... cross fingers
   {
     Serial.println("sendtoWait failed"); // for some reason I have failed
-	randNumber=random(200,max_delay);
+  randNumber=random(200,max_delay);
     Serial.println(randNumber);
     delay(randNumber);
   }
   else
   {
     Serial.println("sendtoWait Successful"); // I have received an acknowledgement from DESTINATION_ADDRESS_1. Data have been delivered!
-	successful_packet = true;
+  successful_packet = true;
  }
   
   }
