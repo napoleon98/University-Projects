@@ -184,9 +184,10 @@ void process(){
   Serial.print(soilNode[0]);
   
   //calculations
-  float meanHum = 0;
-  float meanTemp = 0;
-  float meanSoil = 0;
+  int meanHum = 0;
+  int meanTemp = 0;
+  int meanSoil = 0;
+  
   
   int l=0;
   int m=0;
@@ -218,7 +219,10 @@ void process(){
           digitalWrite(orangeLED, LOW);
       }
     }
-  
+    Serial.print("mean temp: ");
+  Serial.println(meanTemp);
+  Serial.print("mean hum: ");
+  Serial.println(meanHum);
   if(meanTemp > HIGH_TEMP)digitalWrite(redLED, HIGH);
   if(meanTemp < HIGH_TEMP)digitalWrite(redLED, LOW);
   if(meanHum > HIGH_HUM)digitalWrite(blueLED, HIGH);
@@ -236,6 +240,8 @@ void process(){
   memcpy(data_send, data_read, RF22_ROUTER_MAX_MESSAGE_LEN); // now I'm copying data_read to data_send
   //number_of_bytes=sizeof(data_send); // I'm counting the number of bytes of my message
   successful_packet = false;
+  Serial.print("tha steilw: ");
+  Serial.println(data_read);
   while (!successful_packet){ 
   
   if (rf22.sendtoWait(data_send, sizeof(data_send), DESTINATION_ADDRESS_1) != RF22_ROUTER_ERROR_NONE) // I'm sending the data in variable data_send to DESTINATION_ADDRESS_1... cross fingers
