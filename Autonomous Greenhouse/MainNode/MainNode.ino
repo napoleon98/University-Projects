@@ -80,7 +80,7 @@ void loop() {
 
     //Serial.println(received_value); // and showing them on the screen
 		
-  }
+  
   int i=0;
   int r=0;
   
@@ -154,14 +154,18 @@ void loop() {
 		  
 	  }
 	  
-		if(needWater == 1)digitalWrite(waterRow[row], HIGH);
-		else digitalWrite(waterRow[row], LOW);
+		if(needWater == 1)digitalWrite(waterRow[row-1], HIGH);
+		else digitalWrite(waterRow[row-1], LOW);
+
+    
 		
-		if(temp>42)digitalWrite(fanRow[row], HIGH);
-		else digitalWrite(fanRow[row], LOW);
+		if(temp>28)digitalWrite(fanRow[row-1], HIGH);
+		else digitalWrite(fanRow[row-1], LOW);
 		
     Serial.print("Row ");
     Serial.print(row,DEC);
+    Serial.print("Need water ");
+    Serial.print(needWater,DEC);
     Serial.print(" Mean Temp: ");
     Serial.print(temp,DEC);
     Serial.print(" Mean Humidity: ");
@@ -169,7 +173,7 @@ void loop() {
     Serial.print("% and Has Damage: ");
     Serial.println(dmg,DEC);
     
-	  
+}
   //Decode Message
   
 }
