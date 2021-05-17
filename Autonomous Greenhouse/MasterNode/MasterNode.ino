@@ -46,7 +46,7 @@ int waterSystemDamage[NUM_OF_NODES];
 
 
 
-int received_value=0;
+long int received_value=0;
 
 
 void setup() {
@@ -103,7 +103,7 @@ void loop() {
   memset(buf, '\0', RF22_ROUTER_MAX_MESSAGE_LEN);
   memset(incoming, '\0', RF22_ROUTER_MAX_MESSAGE_LEN);
   uint8_t len = sizeof(buf); 
-  uint8_t from;
+  uint8_t from = 0;
   //digitalWrite(5, LOW);
   if (rf22.recvfromAck(buf, &len, &from)) // I'm always expecting to receive something from any legitimate transmitter (DESTINATION_ADDRESS_1, DESTINATION_ADDRESS_2). If I do, I'm sending an acknowledgement
   {
@@ -112,15 +112,18 @@ void loop() {
     memcpy(incoming, buf, RF22_ROUTER_MAX_MESSAGE_LEN); // I'm copying what I have received in variable incoming
     //Serial.print("got request from : ");
     //Serial.println(from, DEC);
-    received_value=atoi((char*)incoming); // transforming my data into an integer
-
-    //Serial.println(received_value); // and showing them on the screen
-	
+    received_value=atol((char*)incoming); // transforming my data into an integer
+	Serial.print("received value ");
+    Serial.println(received_value); // and showing them on the screen
+	Serial.print("I'm from ");
+	  Serial.println(from);
 	
   }
   
-  whoSent = received_value / 10000000;
-  received_value = received_value % 10000000;//afairesame to MY_ADDRESS apo to received_value
+  whoSent = (int)from;
+	Serial.println(whoSent);
+	
+  //received_value = received_value % 10000000;//afairesame to MY_ADDRESS apo to received_value
   
   int i=0;
   int k=0;
