@@ -58,24 +58,30 @@ void loop() {
   int sensorValue = analogRead(rainPin); //0 -> 1023 ... 1023 = 0% humidity
   Serial.print(sensorValue);
    
-  int completePacket = (MY_ADDRESS-100) * 10000000 + sensorValue * 1000000 + t * 1000 + h;
-  
+  long int completePacket =  sensorValue * 1000000 + t * 1000 + h;
+  Serial.print("the temperature is ");
+	Serial.println(tf);
+Serial.print("the humidity is ");
+	Serial.println(hf);	
+	Serial.print("Soil is ");
+	Serial.println(sensorValue);
+	Serial.println(completePacket);
   // the following variables are used in order to transform my integer measured value into a uint8_t variable, which is proper for my radio
   char data_read[RF22_ROUTER_MAX_MESSAGE_LEN];
   uint8_t data_send[RF22_ROUTER_MAX_MESSAGE_LEN];
   memset(data_read, '\0', RF22_ROUTER_MAX_MESSAGE_LEN);
   memset(data_send, '\0', RF22_ROUTER_MAX_MESSAGE_LEN);    
-  sprintf(data_read, "%d", completePacket); // I'm copying the measurement sensorVal into variable data_read
+  sprintf(data_read, "%ld", completePacket); // I'm copying the measurement sensorVal into variable data_read
   data_read[RF22_ROUTER_MAX_MESSAGE_LEN - 1] = '\0'; 
   memcpy(data_send, data_read, RF22_ROUTER_MAX_MESSAGE_LEN); // now I'm copying data_read to data_send
   //number_of_bytes=sizeof(data_send); // I'm counting the number of bytes of my message
   //Serial.print("Number of Bytes= ");
   //Serial.println(number_of_bytes);  // and show the result on my monitor
   //just testing
-  int sensorVal2=0;
-  sensorVal2=atoi(data_read);
-  Serial.print("The string I'm ready to send is= ");
-  Serial.println(sensorVal2);
+  //int sensorVal2=0;
+  //sensorVal2=atoi(data_read);
+  //Serial.print("The string I'm ready to send is= ");
+  //Serial.println(sensorVal2);
   //just testing
   successful_packet = false;
   while (!successful_packet){
