@@ -65,7 +65,7 @@ Serial.print("the humidity is ");
   Serial.println(hf); 
   Serial.print("Soil is ");
   Serial.println(sensorValue);
-  Serial.println(completePacket);
+  //Serial.println(completePacket);
   // the following variables are used in order to transform my integer measured value into a uint8_t variable, which is proper for my radio
   char data_read[RF22_ROUTER_MAX_MESSAGE_LEN];
   uint8_t data_send[RF22_ROUTER_MAX_MESSAGE_LEN];
@@ -90,7 +90,7 @@ Serial.print("the humidity is ");
   {
     Serial.println("sendtoWait failed"); // for some reason I have failed
   randNumber=random(200,max_delay);
-    Serial.println(randNumber);
+    //Serial.println(randNumber);
     delay(randNumber);
   }
   else
@@ -100,7 +100,8 @@ Serial.print("the humidity is ");
   }
   // just demonstrating that the string I will send, after those transformation from integer to char and back remains the same
   }
-  delay(2000);
+  delay(4000);
+  Serial.println("-----------------------");
   //Soil Moisture CodeEND
   
   
