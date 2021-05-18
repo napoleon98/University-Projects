@@ -30,7 +30,7 @@ int blueLED = 8; //upshlh ugrasia
 // you can adjust the threshold value
 int thresholdValue = 600; //(Moisture threshold) -> apo 600 ews 1023 tha anoigoun potistiria
 int extremeLowHum = 750; // apo 900 ews 1023 exoume thema sto potistiko
-int wateringDone = 350; // apo 900 ews 1023 exoume thema sto potistiko
+int wateringDone = 530; // apo 900 ews 1023 exoume thema sto potistiko
 int needWater = 0; //0 h 1 analoga an prepei na anoiksei to potistiko h oxi
 
 //Nodes
@@ -150,7 +150,7 @@ void loop() {
   }
   
   if(allSent==1){
-    
+    Serial.println("--------------------------------------");
     process();
     
   }
@@ -180,8 +180,8 @@ void process(){
    hNode[0] = h;
   
   soilNode[0] = analogRead(rainPin); //0 -> 1023 ... 1023 = 0% humidity
-  
-  Serial.print(soilNode[0]);
+  Serial.print("Master node soil: ");
+  Serial.println(soilNode[0]);
   
   //calculations
   int meanHum = 0;
@@ -210,23 +210,27 @@ void process(){
         waterSystemDamage[m]=1;
         Serial.print("Node ");
         Serial.print(m,DEC);
-        Serial.println("has water system damage");
+        Serial.println(" has water system damage");
         hasDamage = 1;
-        digitalWrite(orangeLED, HIGH);
+        //digitalWrite(orangeLED, HIGH);
         }
       else {waterSystemDamage[m] = 0;
         Serial.println("Watering system works fine");
-          digitalWrite(orangeLED, LOW);
+          //digitalWrite(orangeLED, LOW);
       }
     }
     Serial.print("mean temp: ");
   Serial.println(meanTemp);
   Serial.print("mean hum: ");
   Serial.println(meanHum);
+  Serial.print("mean soil: ");
+  Serial.println(meanSoil);
   if(meanTemp > HIGH_TEMP)digitalWrite(redLED, HIGH);
   if(meanTemp < HIGH_TEMP)digitalWrite(redLED, LOW);
   if(meanHum > HIGH_HUM)digitalWrite(blueLED, HIGH);
   if(meanTemp < HIGH_HUM)digitalWrite(blueLED, LOW);
+  if(hasDamage==1)digitalWrite(orangeLED,HIGH);
+  if(hasDamage==0)digitalWrite(orangeLED,LOW);
   
   //pws na paketaroume??
   
@@ -248,7 +252,7 @@ void process(){
   {
     Serial.println("sendtoWait failed"); // for some reason I have failed
   randNumber=random(200,max_delay);
-    Serial.println(randNumber);
+    //Serial.println(randNumber);
     delay(randNumber);
   }
   else
