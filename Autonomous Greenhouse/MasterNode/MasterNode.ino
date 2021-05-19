@@ -15,7 +15,6 @@ int row = 1; //leei se poia grammh anoikei o master node
 #define DESTINATION_ADDRESS_1 1 
 
 RF22Router rf22(MY_ADDRESS);
-//RF22 rf22;
 
 long randNumber;
 boolean successful_packet = false;
@@ -40,11 +39,6 @@ int tNode[NUM_OF_NODES];
 int hNode[NUM_OF_NODES];
 int soilNode[NUM_OF_NODES];
 int waterSystemDamage[NUM_OF_NODES];
-
-
-
-
-
 
 long int received_value=0;
 
@@ -86,10 +80,8 @@ hNode[z]=0;
 soilNode[z]=0;
 waterSystemDamage[z]=0;
   
-}
-  
-  delay(1000); // delay for 1 s
-  
+}  
+  delay(1000); // delay for 1 s  
 }
 
 void loop() {
@@ -104,27 +96,14 @@ void loop() {
   memset(incoming, '\0', RF22_ROUTER_MAX_MESSAGE_LEN);
   uint8_t len = sizeof(buf); 
   uint8_t from = 0;
-  //digitalWrite(5, LOW);
   if (rf22.recvfromAck(buf, &len, &from)) // I'm always expecting to receive something from any legitimate transmitter (DESTINATION_ADDRESS_1, DESTINATION_ADDRESS_2). If I do, I'm sending an acknowledgement
   {
- //   digitalWrite(5, HIGH);
     buf[RF22_ROUTER_MAX_MESSAGE_LEN - 1] = '\0';
     memcpy(incoming, buf, RF22_ROUTER_MAX_MESSAGE_LEN); // I'm copying what I have received in variable incoming
-    //Serial.print("got request from : ");
-    //Serial.println(from, DEC);
-    received_value=atol((char*)incoming); // transforming my data into an integer
-  //Serial.print("received value ");
-  //Serial.println(received_value); // and showing them on the screen
-  //Serial.print("I'm from ");
-  //Serial.println(from);
-  
+    received_value=atol((char*)incoming); // transforming my data into an integer   
   }
   
   whoSent = ((int)from)%100;
-  
-  //Serial.println(whoSent);
-  
-  //received_value = received_value % 10000000;//afairesame to MY_ADDRESS apo to received_value
   
   int i=0;
   int k=0;
@@ -139,10 +118,7 @@ void loop() {
       received_value = received_value % 1000;
       hNode[i-1]=received_value;
     }
-    
-    
-    
-  }
+    }
   
   for(k=0;k<NUM_OF_NODES;k++){
     if(nodeNum[k]==0)allSent=0;   
@@ -153,9 +129,7 @@ void loop() {
     Serial.println("--------------------------------------");
     process();
     
-  }
-    
-  
+  } 
 }
 
 void process(){
@@ -212,11 +186,9 @@ void process(){
         Serial.print(m,DEC);
         Serial.println(" has water system damage");
         hasDamage = 1;
-        //digitalWrite(orangeLED, HIGH);
         }
       else {waterSystemDamage[m] = 0;
         Serial.println("Watering system works fine");
-          //digitalWrite(orangeLED, LOW);
       }
     }
     Serial.print("mean temp: ");
@@ -231,8 +203,6 @@ void process(){
   if(meanTemp < HIGH_HUM)digitalWrite(blueLED, LOW);
   if(hasDamage==1)digitalWrite(orangeLED,HIGH);
   if(hasDamage==0)digitalWrite(orangeLED,LOW);
-  
-  //pws na paketaroume??
   
   //packetData + send
   char data_read[RF22_ROUTER_MAX_MESSAGE_LEN];
@@ -252,8 +222,7 @@ void process(){
   {
     Serial.println("sendtoWait failed"); // for some reason I have failed
   randNumber=random(200,max_delay);
-    //Serial.println(randNumber);
-    delay(randNumber);
+  delay(randNumber);
   }
   else
   {
