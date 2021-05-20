@@ -47,7 +47,7 @@ void setup() {
 		pinMode(fanRow[k], OUTPUT);
 		digitalWrite(fanRow[k], LOW);
 	}
-	
+	  
     delay(1000); // delay for 1 s
   
 }
@@ -159,12 +159,12 @@ void loop() {
 
     
 		
-		if(temp>28)digitalWrite(fanRow[row-1], HIGH);
+		if(temp>31)digitalWrite(fanRow[row-1], HIGH);
 		else digitalWrite(fanRow[row-1], LOW);
 		
     Serial.print("Row ");
     Serial.print(row,DEC);
-    Serial.print("Need water ");
+    Serial.print(" Need water ");
     Serial.print(needWater,DEC);
     Serial.print(" Mean Temp: ");
     Serial.print(temp,DEC);
@@ -172,6 +172,7 @@ void loop() {
     Serial.print(hum,DEC);
     Serial.print("% and Has Damage: ");
     Serial.println(dmg,DEC);
+    Serial.println("---------------------------------");
     
 }
   //Decode Message
