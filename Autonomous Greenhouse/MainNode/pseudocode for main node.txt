@@ -1,0 +1,50 @@
+Include libraries
+Define pins
+Define destination and source address 
+Create necessary objects
+Define and initialise global variables
+
+Setup{
+	Set Baud rate
+	initialise RF22Router object
+	initialise LEDs
+	Delay for 1000ms
+}
+
+Loop{
+
+
+	received_value = 0
+	if(received packet){
+	
+		 received_value = packet
+	}
+	
+	Decode received_value (contains which row sent the packet, measurements of this row and if this row needs watering) 
+	
+	if(this row has high mean temperature){
+	
+		turn green LED on 
+	
+	
+	}
+	else{
+		turn green LED off
+	}
+	
+	if(this row needs water){
+	
+		turn blue LED on 
+	
+	
+	}
+	else{
+	
+		turn blue LED off 
+	}
+	
+	print all information contained in received_value
+
+
+
+}
