@@ -50,8 +50,8 @@ void loop() {
   //DHT CodeBEGIN
   float hf = dht.readHumidity();        // read humidity
   float tf = dht.readTemperature();     // read temperature 
-  int h=hf;
-  int t=tf;
+  long int h=hf;
+  long int t=tf;
     if (isnan(hf) || isnan(tf)) {
       Serial.println(F("Failed to read from DHT sensor!"));
       return;
@@ -64,12 +64,14 @@ void loop() {
   long int completePacket =  sensorValue * 1000000 + t * 1000 + h;
   
   //serial prints
-  Serial.print("the temperature is ");
+  Serial.print("the room temperature is ");
   Serial.println(tf);
-  Serial.print("the humidity is ");
+  Serial.print("the room humidity is ");
   Serial.println(hf); 
   Serial.print("Soil is ");
-  Serial.println(sensorValue);
+  Serial.print(sensorValue);
+  Serial.println(" (0 means: Soil humidity 100% -> 1023 means: Soil humidity 0%) ");
+  
   initial_time=millis();
   //Serial.println(completePacket);
   // the following variables are used in order to transform my integer measured value into a uint8_t variable, which is proper for my radio
