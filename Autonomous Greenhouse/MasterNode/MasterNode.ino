@@ -2,8 +2,8 @@
 #include <SPI.h>
 #include <RF22.h>
 #include <RF22Router.h>
-#define HIGH_TEMP 23
-#define HIGH_HUM 40
+#define HIGH_TEMP 31
+#define HIGH_HUM 35
 #define NUM_OF_NODES 3
 
 #define DHTPIN 2     // Digital pin connected to the DHT sensor
@@ -15,7 +15,7 @@ int row = 1; //leei se poia grammh anoikei o master node
 #define DESTINATION_ADDRESS_1 1 
 
 RF22Router rf22(MY_ADDRESS);
-
+int packetCounter=0;
 long randNumber;
 boolean successful_packet = false;
 int max_delay=3000;
@@ -28,8 +28,8 @@ int redLED = 7; //anavei otan entopisei upshlh thermokrasia
 int blueLED = 8; //upshlh ugrasia
 // you can adjust the threshold value
 int thresholdValue = 600; //(Moisture threshold) -> apo 600 ews 1023 tha anoigoun potistiria
-int extremeLowHum = 750; // apo 900 ews 1023 exoume thema sto potistiko
-int wateringDone = 530; // apo 900 ews 1023 exoume thema sto potistiko
+int extremeLowHum = 720; // apo 900 ews 1023 exoume thema sto potistiko
+int wateringDone = 380; // apo 900 ews 1023 exoume thema sto potistiko
 int needWater = 0; //0 h 1 analoga an prepei na anoiksei to potistiko h oxi
 
 //Nodes
@@ -103,6 +103,7 @@ void loop() {
     received_value=atol((char*)incoming); // transforming my data into an integer   
   }
   
+  
   whoSent = ((int)from)%100;
   
   int i=0;
@@ -126,7 +127,10 @@ void loop() {
   }
   
   if(allSent==1){
+      Serial.print("Packets counted Simple: ");
+      Serial.print(packetCounter);
     Serial.println("--------------------------------------");
+    
     process();
     
   } 
@@ -155,7 +159,8 @@ void process(){
   
   soilNode[0] = analogRead(rainPin); //0 -> 1023 ... 1023 = 0% humidity
   Serial.print("Master node soil: ");
-  Serial.println(soilNode[0]);
+  Serial.print(soilNode[0]);
+  Serial.println(" (0 means: Soil humidity 100% -> 1023 means: Soil humidity 0%) ");
   
   //calculations
   int meanHum = 0;
@@ -171,7 +176,9 @@ void process(){
     meanHum = meanHum + hNode[l];
     meanTemp = meanTemp + tNode[l];
     meanSoil = meanSoil + soilNode[l];
+    
   }
+  
   meanHum = meanHum / NUM_OF_NODES;
   meanTemp = meanTemp / NUM_OF_NODES;
   meanSoil = meanSoil / NUM_OF_NODES;
@@ -191,16 +198,17 @@ void process(){
         Serial.println("Watering system works fine");
       }
     }
-    Serial.print("mean temp: ");
+    Serial.print("mean row room temp: ");
   Serial.println(meanTemp);
-  Serial.print("mean hum: ");
+  
+  Serial.print("mean row room hum: ");
   Serial.println(meanHum);
-  Serial.print("mean soil: ");
+  Serial.print("mean row soil: ");
   Serial.println(meanSoil);
   if(meanTemp > HIGH_TEMP)digitalWrite(redLED, HIGH);
   if(meanTemp < HIGH_TEMP)digitalWrite(redLED, LOW);
   if(meanHum > HIGH_HUM)digitalWrite(blueLED, HIGH);
-  if(meanTemp < HIGH_HUM)digitalWrite(blueLED, LOW);
+  if(meanHum < HIGH_HUM)digitalWrite(blueLED, LOW);
   if(hasDamage==1)digitalWrite(orangeLED,HIGH);
   if(hasDamage==0)digitalWrite(orangeLED,LOW);
   
@@ -228,6 +236,7 @@ void process(){
   {
     Serial.println("sendtoWait Successful"); // I have received an acknowledgement from DESTINATION_ADDRESS_1. Data have been delivered!
   successful_packet = true;
+  packetCounter++;
  }
   
   }
