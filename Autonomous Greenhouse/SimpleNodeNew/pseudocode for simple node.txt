@@ -1,0 +1,45 @@
+Include libraries
+Define pins
+Define destination and source address 
+Create necessary objects
+Define and initialise global variables
+
+Setup{
+	Set Baud rate
+	initialise RF22Router object
+	set a random seed
+	Begin DHT sensor
+	Delay for 1000ms
+
+
+}
+
+Loop{
+	
+	measure humidity and temp
+	measure soil humidity
+	
+	create the "complete packet" to send to master node
+	
+	Print the measurements for temperature, humidity and soil humidity
+	
+	encode measurements in message_packet
+	successful_packet = false
+	
+	While(!successful_packet){
+	
+		try to send message_packet
+		if(ack){
+			
+			successful_packet = true 
+		}
+		else{
+		
+			random delay 
+		}
+	
+	}
+	
+	delay 4000 ms
+
+}
