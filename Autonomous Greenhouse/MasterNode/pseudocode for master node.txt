@@ -1,0 +1,130 @@
+Include libraries
+Define pins
+Define destination and source address 
+Create necessary objects
+Define and initialise global variables
+
+Setup{
+	Set Baud rate
+	initialise RF22Router object
+	set a random seed
+	Begin DHT sensor
+	initialise LEDs
+	Delay for 1000ms
+	
+
+}
+
+Loop {
+
+	received_value = 0
+	if(received packet){
+	
+		 received_value = packet
+	}
+	
+	Decode received_value ( contains humidity, temperature and soil moisture measurements)
+	
+	store each measurement in a variable
+	
+	if(all simple nodes sent their packet){
+		
+		process()
+	
+	}
+
+
+}
+
+
+process{
+
+	measure humidity and temp
+	measure soil humidity
+	
+	Print the measurements for temperature, humidity and soil moisture
+	
+	calculate mean humidity,temperature and soil moisture for this row
+	
+	boolean need_water
+	
+	if(mean_soil_moisture < lowest_desired_value){
+	
+		need_water = 1
+	
+	}
+	
+	if(mean_soil_moisture > highest_desired_value){
+	
+		need_water = 0
+	
+	}
+	
+	boolean has_water_system_damage
+	
+	if(need_water = 1){
+	
+		if(soil_moisture of at least one node of this row < threshold_value){
+		
+			print which node has water system damage
+			
+			has_water_system_damage = 1
+		
+		}
+		else{
+		
+			print "Watering system works fine"
+	
+		}
+		
+	}
+	
+	print mean humidity,temperature and soil moisture for this row
+	
+	if(mean_temperature is high){
+		turn red LED on
+	}
+	else {
+		turn red LED off
+	
+	}
+	
+	if(mean_humidity is high){
+		turn blue LED on
+	}
+	else {
+		turn blue LED off
+	
+	}
+	
+	if(has_water_system_damage){
+		turn orange LED on
+	}
+	else {
+		turn orange LED off
+	
+	}
+	
+	
+	encode mean values, has_water_system_damage, need_water in message_packet
+	
+	successful_packet = false
+	
+	While(!successful_packet){
+	
+		try to send message_packet
+		if(successfully sent){
+			
+			successful_packet = true 
+		}
+		else{
+		
+			random delay 
+		}
+	
+	}
+	
+	
+
+
+}
