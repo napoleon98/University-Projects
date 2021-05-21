@@ -19,12 +19,11 @@ long randNumber;
 boolean successful_packet = false;
 int max_delay=3000;
 int number_of_bytes=0; // will be needed to measure bytes of message
-int counter=0;
-int initial_time=0;
-int final_time=0;
+
+
 void setup() {
     Serial.begin(9600);
-  
+  //SETUP MY RF--begin
   if (!rf22.init()) // initialize my radio
     Serial.println("RF22 init failed");  
     if (!rf22.setFrequency(434.0))
@@ -32,7 +31,7 @@ void setup() {
     rf22.setTxPower(RF22_TXPOW_20DBM);  
     rf22.setModemConfig(RF22::OOK_Rb40Bw335  ); // set the desired modulation
     rf22.addRouteTo(DESTINATION_ADDRESS_1, DESTINATION_ADDRESS_1); // tells my radio card that if I want to send data to DESTINATION_ADDRESS_1 then I will send them directly to DESTINATION_ADDRESS_1 and not to another radio who would act as a relay
-  
+  //SETUP MY RF--end
     pinMode(rainPin, INPUT);
     randomSeed(analogRead(A0));
     //DHT setupBEGIN
@@ -44,10 +43,8 @@ void setup() {
 }
 
 void loop() {
-  //measure throughput
-  counter=0;  
-  
-  //DHT CodeBEGIN
+    
+  //DHT CODE -- begin
   float hf = dht.readHumidity();        // read humidity
   float tf = dht.readTemperature();     // read temperature 
   long int h=hf;
@@ -56,11 +53,12 @@ void loop() {
       Serial.println(F("Failed to read from DHT sensor!"));
       return;
     }
-  //DHT CodeEND
-  
+  //DHT CODE -- end
+	
+  //READ SOIL MOISTURE SENSOR
   int sensorValue = analogRead(rainPin); //0 -> 1023 ... 1023 = 0% humidity
   
-  //what i will send
+  //ENCODE PREVIOUS MEASUREMENTS IN ONE COMPLETE PACKET
   long int completePacket =  sensorValue * 1000000 + t * 1000 + h;
   
   //serial prints
@@ -71,9 +69,7 @@ void loop() {
   Serial.print("Soil is ");
   Serial.print(sensorValue);
   Serial.println(" (0 means: Soil humidity 100% -> 1023 means: Soil humidity 0%) ");
-  
-  initial_time=millis();
-  //Serial.println(completePacket);
+	
   // the following variables are used in order to transform my integer measured value into a uint8_t variable, which is proper for my radio
   char data_read[RF22_ROUTER_MAX_MESSAGE_LEN];
   uint8_t data_send[RF22_ROUTER_MAX_MESSAGE_LEN];
@@ -85,6 +81,7 @@ void loop() {
   number_of_bytes=sizeof(data_send); // I'm counting the number of bytes of my message
   
   successful_packet = false;
+//TRANSMIT MESSAGE -- begin
   while (!successful_packet){
   
   if (rf22.sendtoWait(data_send, sizeof(data_send), DESTINATION_ADDRESS_1) != RF22_ROUTER_ERROR_NONE) // I'm sending the data in variable data_send to DESTINATION_ADDRESS_1... cross fingers
@@ -96,14 +93,12 @@ void loop() {
   else
   {
   successful_packet = true;
-    //Serial.println("sendtoWait Successful"); // I have received an acknowledgement from DESTINATION_ADDRESS_1. Data have been delivered!
-	counter=counter+1;
+    Serial.println("sendtoWait Successful"); // I have received an acknowledgement from DESTINATION_ADDRESS_1. Data have been delivered!
+	
   }
   // just demonstrating that the string I will send, after those transformation from integer to char and back remains the same
   }
-  final_time=millis();
-  Serial.print("TIME INTERVAL ");
-  Serial.println(final_time-initial_time);
-  delay(4000);
+//TRANSMIT MESSAGE -- end
+  delay(15000); //wait for 15sec -> simple nodes take measurements and transmit them every 15 seconds
   Serial.println("-----------------------------");   
 }
