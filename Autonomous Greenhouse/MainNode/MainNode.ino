@@ -6,22 +6,20 @@
 #define DESTINATION_ADDRESS_1 60 //1 -> master node of row
 #define num_of_rows 1
 RF22Router rf22(MY_ADDRESS);
-//RF22 rf22;
+
 int received_value=0;
-//int blueLED = 8;
-//int orangeLED = 6;
 
-int waterRow[num_of_rows];
+int waterRow[num_of_rows];//Array of gpio pins to control (on - off) watering system on each row
 
-int fanRow[num_of_rows];
+int fanRow[num_of_rows];//Array of gpio pins to control (on - off) cooling/heating system on each row
 
 
 void setup() {
     Serial.begin(9600);
-    waterRow[0] = 8;//orizoume to pin pou antistoixei sto potistiko ths kathe grammhs
-    fanRow[0] = 6;
+    waterRow[0] = 8;//Define the gpio used on watering system of each row
+    fanRow[0] = 6;//Define the gpio used on cooling/heating of each row
 	
-
+//initialize rf--begin
   if (!rf22.init()) // initialize my radio
     Serial.println("RF22 init failed");
   // Defaults after init are 434.0MHz, 0.05MHz AFC pull-in, modulation FSK_Rb2_4Fd36
@@ -34,7 +32,9 @@ void setup() {
 
   // Manually define the routes for this network
   rf22.addRouteTo(DESTINATION_ADDRESS_1, DESTINATION_ADDRESS_1); // tells my radio card that if I want to send data to DESTINATION_ADDRESS_1 then I will send them directly to DESTINATION_ADDRESS_1 and not to another radio who would act as a relay
-  
+//initialize rf--end
+	
+//initialize gpio pins--begin
     int k = 0;
 	for(k=0;k<num_of_rows;k++){
 		
@@ -47,7 +47,7 @@ void setup() {
 		pinMode(fanRow[k], OUTPUT);
 		digitalWrite(fanRow[k], LOW);
 	}
-	  
+//initialize gpio pins--end	  
     delay(1000); // delay for 1 s
   
 }
@@ -61,7 +61,7 @@ void loop() {
   int hum=0;
   int dmg=0;
 
-  
+  //RECEIVE MODE--begin
   uint8_t buf[RF22_ROUTER_MAX_MESSAGE_LEN];
   char incoming[RF22_ROUTER_MAX_MESSAGE_LEN];
   memset(buf, '\0', RF22_ROUTER_MAX_MESSAGE_LEN);
@@ -74,17 +74,13 @@ void loop() {
  //   digitalWrite(5, HIGH);
     buf[RF22_ROUTER_MAX_MESSAGE_LEN - 1] = '\0';
     memcpy(incoming, buf, RF22_ROUTER_MAX_MESSAGE_LEN); // I'm copying what I have received in variable incoming
-    //Serial.print("got request from : ");
-    //Serial.println(from, DEC);
-    //received_value=atoi((char*)incoming); // transforming my data into an integer
-
-    //Serial.println(received_value); // and showing them on the screen
+//RECEIVE MODE--end
 		
   
   int i=0;
   int r=0;
   
- //Decode Message
+ //DECODE RECEIVED MESSAGE -- begin
 	  if(incoming[i] == 'R'){
 		  i++;
 		  while(incoming[i]!='W'){
@@ -153,15 +149,16 @@ void loop() {
 		  memset(message, '\0', RF22_ROUTER_MAX_MESSAGE_LEN);
 		  
 	  }
-	  
+//DECODE RECEIVED MESSAGE -- end  
+//CONTROL WATERING AND COOLING HEATING SYSTEM ON THE ROW THAT SENT THE PREVIOUS MESSAGE--begin
 		if(needWater == 1)digitalWrite(waterRow[row-1], HIGH);
-		else digitalWrite(waterRow[row-1], LOW);
-
-    
+		else digitalWrite(waterRow[row-1], LOW);    
 		
 		if(temp>31)digitalWrite(fanRow[row-1], HIGH);
 		else digitalWrite(fanRow[row-1], LOW);
-		
+//CONTROL WATERING AND COOLING HEATING SYSTEM ON THE ROW THAT SENT THE PREVIOUS MESSAGE--end
+
+//PRINT INFO ABOUT THIS ROW -- begin
     Serial.print("Row ");
     Serial.print(row,DEC);
     Serial.print(" Need water ");
@@ -173,8 +170,8 @@ void loop() {
     Serial.print("% and Has Damage: ");
     Serial.println(dmg,DEC);
     Serial.println("---------------------------------");
+//PRINT INFO ABOUT THIS ROW -- end
     
 }
-  //Decode Message
   
 }
