@@ -23,29 +23,29 @@ int max_delay=3000;
 DHT dht(DHTPIN, DHTTYPE);
 
 int rainPin = A0;
-int orangeLED = 6; //vlavh se potistiko ths grammhs
-int redLED = 7; //anavei otan entopisei upshlh thermokrasia
-int blueLED = 8; //upshlh ugrasia
+int orangeLED = 6; //will be used to show us if there is damage in watering system
+int redLED = 7; //will be used to show us if temperature is high or not
+int blueLED = 8; //will be used to show us if humidity is high or not
 // you can adjust the threshold value
-int thresholdValue = 600; //(Moisture threshold) -> apo 600 ews 1023 tha anoigoun potistiria
-int extremeLowHum = 720; // apo 900 ews 1023 exoume thema sto potistiko
-int wateringDone = 380; // apo 900 ews 1023 exoume thema sto potistiko
-int needWater = 0; //0 h 1 analoga an prepei na anoiksei to potistiko h oxi
+int thresholdValue = 600; //if measurement of soil moisture is higher than thresholdValue, watering system will be turned on
+int extremeLowHum = 720; // if measurement of soil moisture is higher than extremeLowHum, watering system has damage
+int wateringDone = 380; // if measurement of soil moisture is lower than wateringDone, watering system should be turned off
+int needWater = 0; //will be used  to store if the watering system needs to be turned on(1) or off(0)
 
-//Nodes
 
-int nodeNum[NUM_OF_NODES];
-int tNode[NUM_OF_NODES];
-int hNode[NUM_OF_NODES];
-int soilNode[NUM_OF_NODES];
-int waterSystemDamage[NUM_OF_NODES];
+int nodeNum[NUM_OF_NODES];// will be filled with 1 for each node that has sent his message
+int tNode[NUM_OF_NODES];//will be stored measurements of temperature that each simple node has sent
+int hNode[NUM_OF_NODES];//will be stored measurements of humidity  that each simple node has sent
+int soilNode[NUM_OF_NODES];//will be stored measurements of soil humidity  that each simple node has sent
+int waterSystemDamage[NUM_OF_NODES];//will be filled with 1 or 0 for each node that has damage or not(respectively) to his watering system
 
-long int received_value=0;
+long int received_value=0;//initialisation of variable in which will be stored the incoming message, as an integer
 
 
 void setup() {
     Serial.begin(9600);
-  
+    
+ //initialize rf--begin 
   if (!rf22.init()) // initialize my radio
     Serial.println("RF22 init failed");
   // Defaults after init are 434.0MHz, 0.05MHz AFC pull-in, modulation FSK_Rb2_4Fd36
@@ -59,6 +59,10 @@ void setup() {
   // Manually define the routes for this network
   rf22.addRouteTo(DESTINATION_ADDRESS_1, DESTINATION_ADDRESS_1); // tells my radio card that if I want to send data to DESTINATION_ADDRESS_1 then I will send them directly to DESTINATION_ADDRESS_1 and not to another radio who would act as a relay
   
+  //initialize rf--end
+ 
+    
+  //initialize gpio pins--begin  
   pinMode(rainPin, INPUT);
   pinMode(blueLED, OUTPUT);
   pinMode(redLED, OUTPUT);
@@ -66,12 +70,14 @@ void setup() {
   digitalWrite(blueLED, LOW);
   digitalWrite(redLED, LOW);
   digitalWrite(orangeLED, LOW);
+  //initialize gpio pins--end
   
-  
-  randomSeed(analogRead(A0));
+  randomSeed(analogRead(A0));//reading  analog pin A0, we give a different seed every time setup function is executed
   //DHT setupBEGIN
   dht.begin();
   //DHT setupEND
+    
+  //initialise the arrays filling them with 0 
   int z=0;
   for(z=0;z<NUM_OF_NODES;z++){
 nodeNum[z]=0;
@@ -86,10 +92,11 @@ waterSystemDamage[z]=0;
 
 void loop() {
 
-  nodeNum[0]=1;
-  int whoSent = 0;
-  int allSent = 1;
-  received_value = 0;
+  nodeNum[0]=1;//initialise the first cell with 1. First cell is for this (master) node
+  int whoSent = 0;//will be used to store from which node we received the message and is initialised with 0
+  int allSent = 1;//will help us to understand if at least on node didn't send his message
+  received_value = 0;//reset value to 0
+   //RECEIVE MODE--begin 
   uint8_t buf[RF22_ROUTER_MAX_MESSAGE_LEN];
   char incoming[RF22_ROUTER_MAX_MESSAGE_LEN];
   memset(buf, '\0', RF22_ROUTER_MAX_MESSAGE_LEN);
@@ -102,17 +109,20 @@ void loop() {
     memcpy(incoming, buf, RF22_ROUTER_MAX_MESSAGE_LEN); // I'm copying what I have received in variable incoming
     received_value=atol((char*)incoming); // transforming my data into an integer   
   }
+  //RECEIVE MODE--end
   
-  
-  whoSent = ((int)from)%100;
+  whoSent = ((int)from)%100;//store who sent the current message
   
   int i=0;
   int k=0;
   
+   //store to the proper cell of each array the measurement, according to who node has sent the current message
   for(i=1;i<(NUM_OF_NODES+1);i++){
-    
+    //check who node has just sent
     if(whoSent == i){
-      nodeNum[i-1]=1;
+      
+      nodeNum[i-1]=1;//store 1,so we know that "whoSent" node has sent 
+      //decode received value, knowing in which 3 digits is stored each measurement  
       soilNode[i-1] = received_value / 1000000;
       received_value = received_value % 1000000;
       tNode[i-1] = received_value/1000;
@@ -120,18 +130,18 @@ void loop() {
       hNode[i-1]=received_value;
     }
     }
-  
+ //ckeck if any node of row the has not send his messages 
   for(k=0;k<NUM_OF_NODES;k++){
-    if(nodeNum[k]==0)allSent=0;   
+    if(nodeNum[k]==0)allSent=0;//for each node that has not send yet, store 1 to his cell 
     
   }
-  
+  //check if all nodes of the row has sent 
   if(allSent==1){
       Serial.print("Packets counted Simple: ");
       Serial.print(packetCounter);
     Serial.println("--------------------------------------");
     
-    process();
+    process();//cal process function
     
   } 
 }
@@ -154,9 +164,10 @@ void process(){
       Serial.println(F("Failed to read from DHT sensor!"));
       return;
     }
+    //store humidity and temperature to first cell of the arrays.this cell is for this node
    tNode[0] = t;
    hNode[0] = h;
-  
+  //read soil humidity
   soilNode[0] = analogRead(rainPin); //0 -> 1023 ... 1023 = 0% humidity
   Serial.print("Master node soil: ");
   Serial.print(soilNode[0]);
@@ -171,7 +182,7 @@ void process(){
   int l=0;
   int m=0;
   
-  
+  //calcualte mean temperature,humidity and soil moisture for this row
   for(l=0;l<NUM_OF_NODES;l++){
     meanHum = meanHum + hNode[l];
     meanTemp = meanTemp + tNode[l];
@@ -183,6 +194,7 @@ void process(){
   meanTemp = meanTemp / NUM_OF_NODES;
   meanSoil = meanSoil / NUM_OF_NODES;
   
+  //check if watering system needs to be turned on/iff and if there is damage in any node
   if(meanSoil > thresholdValue) needWater = 1;
   if(meanSoil < wateringDone) needWater = 0;
   if(needWater == 1)
@@ -205,6 +217,7 @@ void process(){
   Serial.println(meanHum);
   Serial.print("mean row soil: ");
   Serial.println(meanSoil);
+  //turn on/off leds for high temperature,humidity and watering system damage 
   if(meanTemp > HIGH_TEMP)digitalWrite(redLED, HIGH);
   if(meanTemp < HIGH_TEMP)digitalWrite(redLED, LOW);
   if(meanHum > HIGH_HUM)digitalWrite(blueLED, HIGH);
@@ -212,25 +225,26 @@ void process(){
   if(hasDamage==1)digitalWrite(orangeLED,HIGH);
   if(hasDamage==0)digitalWrite(orangeLED,LOW);
   
-  //packetData + send
+   // the following variables are used in order to transform my integer measured value into a uint8_t variable, which is proper for my radio
   char data_read[RF22_ROUTER_MAX_MESSAGE_LEN];
   uint8_t data_send[RF22_ROUTER_MAX_MESSAGE_LEN];
   memset(data_read, '\0', RF22_ROUTER_MAX_MESSAGE_LEN);
   memset(data_send, '\0', RF22_ROUTER_MAX_MESSAGE_LEN);    
-  sprintf(data_read, "R%dW%dT%dH%dD%d", row,needWater,meanTemp,meanHum,hasDamage); // I'm copying the measurement sensorVal into variable data_read
+  sprintf(data_read, "R%dW%dT%dH%dD%d", row,needWater,meanTemp,meanHum,hasDamage); // I'm copying the number of row, variable "needwater", measurements and variable "hasdamage" into variable data_read,storing one different letter before number of row (R),needwater(W),hasdamage(D) and each measurement(T,H)
   data_read[RF22_ROUTER_MAX_MESSAGE_LEN - 1] = '\0'; 
   memcpy(data_send, data_read, RF22_ROUTER_MAX_MESSAGE_LEN); // now I'm copying data_read to data_send
   //number_of_bytes=sizeof(data_send); // I'm counting the number of bytes of my message
   successful_packet = false;
   Serial.print("tha steilw: ");
   Serial.println(data_read);
+  //TRANSMIT MESSAGE -- begin  
   while (!successful_packet){ 
   
   if (rf22.sendtoWait(data_send, sizeof(data_send), DESTINATION_ADDRESS_1) != RF22_ROUTER_ERROR_NONE) // I'm sending the data in variable data_send to DESTINATION_ADDRESS_1... cross fingers
   {
     Serial.println("sendtoWait failed"); // for some reason I have failed
   randNumber=random(200,max_delay);
-  delay(randNumber);
+  delay(randNumber);//Delay random number ms and try to send again-ALOHA
   }
   else
   {
@@ -238,6 +252,6 @@ void process(){
   successful_packet = true;
   packetCounter++;
  }
-  
+  //TRANSMIT MESSAGE -- end
   }
 }
